@@ -1,21 +1,62 @@
+<?php
+ //Connection localhost
+  $servername = "localhost";
+  $username = "root";
+  $password = "";
+  $dbname = "db_asmente";
+  try {
+    $conn = new PDO("mysql:host=$servername;dbname=db_asmente", $username, $password);
+    // set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    //echo "Connected successfully";
+  } catch(PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+  }
+ //Connection hosting
+  //require("../../ASMENTE/connection.php");
+ //Kode nomor material MDU
+  $nomormaterial1 = "000000002190218";
+  $nomormaterial2 = "000000002190224";
+  $nomormaterial3 = "000000002190438";
+  $nomormaterial4 = "000000002190253";
+  $nomormaterial5 = "000000002190231";
+  //kWh Meter Pascabayar Mekanik kelas 1
+  $nomormaterial6 = "000000002190380";
+ //Memanggil angka saldo UIW dari database
+  //Material 3P Pascabayar Mekanik
+  try{
+      $query3plsg = "SELECT unrestrictedusestock FROM uiw_rekapmaterial WHERE nomormaterial = ".$nomormaterial1."";
+      $stmtuiw = $conn->prepare($query3plsg);
+      $stmtuiw->execute();
+  }
+  catch(Exception $e){
+    echo "Error message : ".$e->getMessage();
+  }
+  $kWh3plgsg = $stmtuiw->fetchAll();
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!--   Meta Setting -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Album example for Bootstrap</title>
+      <title>Info Material</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/album/">
+      <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/album/">
 
     <!-- Bootstrap core CSS -->
-    <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
+      <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="album.css" rel="stylesheet">
+      <link href="album.css" rel="stylesheet">
+    <!-- CSS STYLE --->
+      <style>
+      </style>
   </head>
 
   <body>
@@ -31,9 +72,9 @@
             <div class="col-sm-4 offset-md-1 py-4">
               <h4 class="text-white">Contact</h4>
               <ul class="list-unstyled">
-                <li><a href="#" class="text-white">Follow on Twitter</a></li>
-                <li><a href="#" class="text-white">Like on Facebook</a></li>
-                <li><a href="#" class="text-white">Email me</a></li>
+                <li><a href="up3_phpspreadsheet.php" class="text-white">Halaman Upload Unit</a></li>
+                <li><a href="rekaptabel.php" class="text-white">Rekap Tabel</a></li>
+                <li><a href="#" class="text-white">NON MDU</a></li>
               </ul>
             </div>
           </div>
@@ -73,13 +114,13 @@
                     <div class="col-md-4">
                         <div class="row ml-4">
                             <div class="col-md-2"></div>
-                            <div class="col-md-6"><h4>KWH METER</h4></div>
+                            <div class="col-md-8 text-center"><h7>KWH MTR PSC MEKANIK</h7></div>
                             <div class="col-md-2"></div>
                         </div>
                         <div class="card mb-4 box-shadow">
-                            <img class="card-img-top" src="img/kWhmeter.jfif" alt="Card image cap">
+                            <img class="card-img-top" src="img/3pelektronik.jfif" alt="Card image cap">
                             <div class="card-body">
-                                <p class="card-text">Info Stock Material kWh Meter</p>
+                                <p class="card-text text-center">Jumlah Saldo <?php echo '<b>'.$kWh3plgsg[0][0].'</b>'; ?></p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
@@ -94,7 +135,7 @@
                     <div class="col-md-4">
                         <div class="row ml-4">
                             <div class="col-md-2"></div>
-                            <div class="col-md-6"><h4>MCB</h4></div>
+                            <div class="col-md-6"><h7>MCB</h7></div>
                             <div class="col-md-2"></div>
                         </div>
                         <div class="card mb-4 box-shadow">
